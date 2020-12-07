@@ -1,5 +1,12 @@
 import java.util.ArrayList;
 
+/**
+ * Class mimicing a player using basic AI to pick th enext move
+ *
+ * @author Gereon
+ * @version 1.0
+ * @see Player
+ */
 public class AI extends Player{
 
     /**
@@ -20,7 +27,12 @@ public class AI extends Player{
     public boolean playsAlone() {
         return GameManager.playsAlone;
     }
-
+    
+    /**
+     * plays the first found legal move to the stack
+     * 
+     * @param stack the current stack
+     */
     @Override
     public void nextTurn(ArrayList<Card> stack) {
         for (Card card : getCards()) {
