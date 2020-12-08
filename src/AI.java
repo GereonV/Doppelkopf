@@ -19,13 +19,12 @@ public class AI extends Player{
     }
 
     /**
-     * should only be called if player has a wedding
-     *
-     * @return whether the ai plays weddings silently
+     * @param teamsManager the manager to split the teams on a solo occasion
+     * @return true if the ai plays an open wedding
      */
     @Override
-    public boolean playsAlone() {
-        return GameManager.playsAlone;
+    public boolean[] extra(TeamsManager teamsManager) {
+        return new boolean[] {isWedding() && !GameManager.playsAlone, isWedding() && !GameManager.playsAlone};
     }
     
     /**

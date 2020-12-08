@@ -8,7 +8,7 @@ public class Game {
         TeamsManager teamsManager = new TeamsManager(new Player[] {new Player("Gereon"), new AI("AI 1"), new AI("AI 2"), new AI("AI 3")});
 
         Deck deck = new Deck();
-        int needsPartner = deck.split(teamsManager.getPlayers());
+        int needsPartner = deck.split(teamsManager);
 
         Player[] players = teamsManager.getPlayersInOrder();
 

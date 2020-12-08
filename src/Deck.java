@@ -44,15 +44,16 @@ public class Deck {
      * Splits the deck evenly across 4 Players, randomizing the cards order.
      * Calls itself until it succeeds.
      *
-     * @param players the players receiving the cards
+     * @param teamsManager the managing Manager
      * @return -1 or the index of the player who needs a partner
      */
-    public int split(Player[] players) {
+    public int split(TeamsManager teamsManager) {
+        Player[] players = teamsManager.getPlayers();   //gets all players
+        int needsPartner = -1;  //initialises return value
         shuffle();  //randomizes the cards' order
-        int needsPartner = -1;  //defaults the return value to -1
         for (int i = 0; i < 4; i++) {   //for every player
             for(int j = i * getCards().size() / 4; j < (i + 1) * getCards().size() / 4; j++) {    //for a fourth of the cards
-                if(players[i].collect(getCards().get(j))) needsPartner = i; //give card to player - if player requests partner adjust the return value
+                players[i].collect(getCards().get(j)); //give card to player
             }
 
             String badCard = GameManager.withNines ? "9" : "König"; //pick the worst card
@@ -62,12 +63,19 @@ public class Deck {
                 if(card.getValue().equals(badCard)) badCards++; //if it is the worst card add one to the bad card counter
                 else if(card.getName().equals("Karo Ass")) foxes++; //if it is a fox instead add one to the respective counter
             }
-            if(badCards >= 5) return split(players);    //if the player has at least 5 of the worst card redo everything
-            else if(foxes == 2 && GameManager.withPigs) {    //if the player has two foxes instead and you play with Pigs
-                players[i].setPigs(true);
+            if(badCards >= 5) return split(teamsManager);    //if the player has at least 5 of the worst card redo everything
+            else if(foxes == 2 && GameManager.withPigs) players[i].setPigs(true);   //if the player has two foxes instead and you play with Pigs
+        }
+        for(int i = 0; i < players.length; i++) { //ask all players for extras
+            boolean[] extra = players[i].extra(teamsManager);   //asks for extras
+            if(extra[0]) {  //breaks if skip requested
+                if(extra[1]) {  //if partner is requested
+                    needsPartner = i;
+                }
+                break;
             }
         }
-        return needsPartner;    //returns -1 or index of whoever requested a partner
+        return needsPartner;
     }
 
     /**

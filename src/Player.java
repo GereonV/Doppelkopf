@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -37,6 +38,11 @@ public class Player {
     private boolean re;
 
     /**
+     * whether the player has a wedding
+     */
+    private boolean wedding;
+
+    /**
      * whether the player has pigs
      */
     private boolean pigs;
@@ -52,6 +58,7 @@ public class Player {
         setExtras();
         setCards();
         setRe(false);
+        setWedding(false);
         setPigs(false);
     }
 
@@ -59,35 +66,108 @@ public class Player {
      * adds a card to the ones already possessed
      *
      * @param card the card to add
-     * @return whether the player has received a second Queen of Clubs and wants a partner
      */
-    public boolean collect(Card card) {
+    public void collect(Card card) {
         getCards().add(card);
         if(card.getName().equals("Kreuz Dame")) {
-            if(isRe()) return !playsAlone();
+            if(isRe()) setWedding(true);
             else setRe(true);
         }
-        return false;
     }
 
     /**
-     * asks the player, whether he wants to play his wedding silently
-     * should only be called if player has a wedding
+     * asks the player for extras
      *
-     * @return whether the player is willing to play his wedding alone
+     * @param teamsManager the manager to split the teams on a solo occasion
+     * @return whether the player plays a public wedding
      */
-    public boolean playsAlone() {
-        String output = "Alleine spielen?\n";
-        for (Card card : getCards()) {
+    public boolean[] extra(TeamsManager teamsManager) {
+        String output = "";
+        for(Card card : getCards()) {
             output = output.concat(card.getName() + ", ");
         }
-        System.out.println(output.substring(0, output.length() - 2));
+        System.out.println(output.substring(0, output.length() - 2) + "\n");
 
-        String input = "";
+
+        boolean skip = true;
+        boolean needsPartner = false;
+
         Scanner scanner = new Scanner(System.in);
-        while(!input.equals("Ja") && !input.equals("Nein")) input = scanner.nextLine();
+        boolean legalInput;
+        do {
+            legalInput = true;
 
-        return input.equals("Ja");
+            switch(scanner.nextLine()) {
+                case "Damen-Solo":
+                case "Damen Solo": {
+                    GameManager.setTrumpOrder(GameManager.Extra.QUEEN);
+                    teamsManager.playsSolo(this);
+                    break;
+                }
+                case "Buben-Solo":
+                case "Buben Solo": {
+                    GameManager.setTrumpOrder(GameManager.Extra.JACK);
+                    teamsManager.playsSolo(this);
+                    break;
+                }
+                case "Ass-Solo":
+                case "Ass Solo":
+                case "fleischlos":
+                case "fehllos": {
+                    GameManager.setTrumpOrder(GameManager.Extra.ACE);
+                    teamsManager.playsSolo(this);
+                    break;
+                }
+                case "Kreuz-Solo":
+                case "Kreuz Solo": {
+                    GameManager.setTrumpOrder(GameManager.Extra.CLUBS);
+                    teamsManager.playsSolo(this);
+                    break;
+                }
+                case "Pik-Solo":
+                case "Pik Solo": {
+                    GameManager.setTrumpOrder(GameManager.Extra.SPADES);
+                    teamsManager.playsSolo(this);
+                    break;
+                }
+                case "Herz-Solo":
+                case "Herz Solo": {
+                    GameManager.setTrumpOrder(GameManager.Extra.HEARTS);
+                    teamsManager.playsSolo(this);
+                    break;
+                }
+                case "Karo-Solo":
+                case "Karo Solo": {
+                    GameManager.setTrumpOrder(GameManager.Extra.DIAMONDS);
+                    teamsManager.playsSolo(this);
+                    break;
+                }
+                case "Hochzeit": {
+                    if(isWedding()) {
+                        needsPartner = true;
+                        setWedding(false);
+                    }
+                    else {
+                        legalInput = false;
+                        break;
+                    }
+                }
+                case "gesund": {
+                    skip = false;
+                    if(isWedding()) {
+                        GameManager.setTrumpOrder(GameManager.Extra.DIAMONDS);
+                        teamsManager.playsSolo(this);
+                    }
+                    if(isPigs()) {
+                        GameManager.setTrumpOrder(GameManager.Extra.PIGS);
+                    }
+                    break;
+                }
+
+                default: legalInput = false; break;
+            }
+        } while(!legalInput);
+        return new boolean[] {skip, needsPartner};
     }
 
     /**
@@ -128,11 +208,6 @@ public class Player {
             if(legal) {
                 stack.add(card);    //adds the card to the stack
                 getCards().remove(card);    //removes the card from hand
-
-                if(isPigs() && card.equals(new Card("Karo Ass"))) { //if played card is the first pig and rule applies
-                    GameManager.setTrumpOrder(GameManager.Extra.PIGS);  //change the pigs to highest trump
-                    setPigs(false); //mark player as not having two pigs anymore
-                }
             }
             return legal;
         } else return false;    //if the stack is null
@@ -251,6 +326,22 @@ public class Player {
      */
     public void setRe(boolean re) {
         this.re = re;
+    }
+
+    /**
+     * @return whether the player has a wedding
+     */
+    public boolean isWedding() {
+        return wedding;
+    }
+
+    /**
+     * sets whether the player has a wedding
+     *
+     * @param wedding whether the player has a wedding
+     */
+    public void setWedding(boolean wedding) {
+        this.wedding = wedding;
     }
 
     /**

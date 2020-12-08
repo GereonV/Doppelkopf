@@ -44,6 +44,18 @@ public class TeamsManager {
     }
 
     /**
+     * call this to split the teams for a Solo
+     *
+     * @param player the player being re
+     */
+    public void playsSolo(Player player) {
+        for(Player aPlayer : getPlayers()) {
+            aPlayer.setRe(false);
+        }
+        player.setRe(true);
+    }
+
+    /**
      * orders the players according to which one goes first, cycling through known players
      *
      * @param goFirst which player should go first

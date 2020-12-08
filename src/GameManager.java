@@ -66,32 +66,18 @@ public class GameManager {
          */
         public String[] getTrumpOrder(String[] trumpOrder) {
             switch(this) {
-                case QUEEN: {
-                    return new String[] {"Kreuz Dame", "Pik Dame", "Herz Dame", "Karo Dame"};
-                }
-                case JACK: {
-                    return new String[] {"Kreuz Bube", "Pik Bube", "Herz Bube", "Karo Bube"};
-                }
-                case ACE: {
-                    return new String[] {};
-                }
-                case CLUBS: {
-                    return new String[] {"Herz 10", "Kreuz Dame", "Pik Dame", "Herz Dame", "Karo Dame", "Kreuz Bube", "Pik Bube", "Herz Bube", "Karo Bube", "Kreuz Ass", "Kreuz 10", "Kreuz König", "Kreuz 9"};
-                }
-                case SPADES: {
-                    return new String[] {"Herz 10", "Kreuz Dame", "Pik Dame", "Herz Dame", "Karo Dame", "Kreuz Bube", "Pik Bube", "Herz Bube", "Karo Bube", "Pik Ass", "Pik 10", "Pik König", "Pik 9"};
-                }
-                case HEARTS: {
-                    return new String[] {"Herz 10", "Kreuz Dame", "Pik Dame", "Herz Dame", "Karo Dame", "Kreuz Bube", "Pik Bube", "Herz Bube", "Karo Bube", "Herz Ass", "Herz König", "Herz 9"};
-                }
-                case DIAMONDS: {
-                    return trumpOrder;
-                }
+                case QUEEN: return new String[] {"Kreuz Dame", "Pik Dame", "Herz Dame", "Karo Dame"};
+                case JACK: return new String[] {"Kreuz Bube", "Pik Bube", "Herz Bube", "Karo Bube"};
+                case ACE: return new String[] {};
+                case CLUBS: return new String[] {"Herz 10", "Kreuz Dame", "Pik Dame", "Herz Dame", "Karo Dame", "Kreuz Bube", "Pik Bube", "Herz Bube", "Karo Bube", "Kreuz Ass", "Kreuz 10", "Kreuz König", "Kreuz 9"};
+                case SPADES: return new String[] {"Herz 10", "Kreuz Dame", "Pik Dame", "Herz Dame", "Karo Dame", "Kreuz Bube", "Pik Bube", "Herz Bube", "Karo Bube", "Pik Ass", "Pik 10", "Pik König", "Pik 9"};
+                case HEARTS: return new String[] {"Herz 10", "Kreuz Dame", "Pik Dame", "Herz Dame", "Karo Dame", "Kreuz Bube", "Pik Bube", "Herz Bube", "Karo Bube", "Herz Ass", "Herz König", "Herz 9"};
+                case DIAMONDS: return trumpOrder;
                 case PIGS: {
                     ArrayList<String> trumpList = (ArrayList<String>) Arrays.asList(trumpOrder);
                     trumpList.remove("Karo Ass");
                     trumpList.add(0, "Karo Ass");
-                    return (String[]) trumpList.toArray();
+                    return trumpList.toArray(new String[0]);
                 }
                 default: return null;
             }
