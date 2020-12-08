@@ -49,6 +49,7 @@ public class Deck {
      */
     public int split(TeamsManager teamsManager) {
         Player[] players = teamsManager.getPlayers();   //gets all players
+        shuffle();  //reshuffles the cards
         int needsPartner = -1;  //initialises return value
         shuffle();  //randomizes the cards' order
         for (int i = 0; i < 4; i++) {   //for every player
@@ -63,15 +64,15 @@ public class Deck {
                 if(card.getValue().equals(badCard)) badCards++; //if it is the worst card add one to the bad card counter
                 else if(card.getName().equals("Karo Ass")) foxes++; //if it is a fox instead add one to the respective counter
             }
-            if(badCards >= 5) return split(teamsManager);    //if the player has at least 5 of the worst card redo everything
+            if(badCards >= 5 && GameManager.illness) return split(teamsManager);    //if the player has at least 5 of the worst card redo everything
             else if(foxes == 2 && GameManager.withPigs) players[i].setPigs(true);   //if the player has two foxes instead and you play with Pigs
         }
         for(int i = 0; i < players.length; i++) { //ask all players for extras
             boolean[] extra = players[i].extra(teamsManager);   //asks for extras
+            if(extra[1]) {  //if partner is requested
+                needsPartner = i;
+            }
             if(extra[0]) {  //breaks if skip requested
-                if(extra[1]) {  //if partner is requested
-                    needsPartner = i;
-                }
                 break;
             }
         }

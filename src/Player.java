@@ -74,6 +74,12 @@ public class Player {
             else setRe(true);
         }
     }
+    
+    public void refreshCards() {
+        for (Card card : getCards()) {
+            card.setTrump();
+        }
+    }
 
     /**
      * asks the player for extras

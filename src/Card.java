@@ -141,7 +141,7 @@ public class Card {
     /**
      * sets the card's trump value based on GameManager's trump-order
      */
-    private void setTrump() {
+    public void setTrump() {
         this.trump = GameManager.isTrump(this);
     }
 }

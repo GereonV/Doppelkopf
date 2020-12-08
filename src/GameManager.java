@@ -105,6 +105,11 @@ public class GameManager {
     public static boolean secondDull = true;
 
     /**
+     * whether 5x 9/King leads to new shuffle
+     */
+    public static boolean illness = true;
+
+    /**
      * whether the ai want's to play alone
      */
     public static boolean playsAlone = false;

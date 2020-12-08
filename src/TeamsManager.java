@@ -51,6 +51,9 @@ public class TeamsManager {
     public void playsSolo(Player player) {
         for(Player aPlayer : getPlayers()) {
             aPlayer.setRe(false);
+            for (Card card : aPlayer.getCards()) {
+                card.setTrump();
+            }
         }
         player.setRe(true);
     }
@@ -86,12 +89,23 @@ public class TeamsManager {
     }
 
     /**
+     * @return the points of re
+     */
+    public int getRePoints() {
+        int points = 0;
+        for (Player player : getRePlayers()) {
+            points += player.getPoints();
+        }
+        return points;
+    }
+
+    /**
      * @return all players that aren't re
      */
     public Player[] getContraPlayers() {
         ArrayList<Player> playerList = new ArrayList<>();
         for(Player player : getPlayers()) {
-            if(player.isRe()) playerList.add(player);
+            if(!player.isRe()) playerList.add(player);
         }
 
         Player[] contraPlayers = new Player[playerList.size()];
@@ -99,5 +113,16 @@ public class TeamsManager {
             contraPlayers[i] = playerList.get(i);
         }
         return contraPlayers;
+    }
+
+    /**
+     * @return the points of contra
+     */
+    public int getContraPoints() {
+        int points = 0;
+        for (Player player : getContraPlayers()) {
+            points += player.getPoints();
+        }
+        return points;
     }
 }

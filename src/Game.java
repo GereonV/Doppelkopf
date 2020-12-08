@@ -10,6 +10,12 @@ public class Game {
         Deck deck = new Deck();
         int needsPartner = deck.split(teamsManager);
 
+        String test = "";
+        for (Card card : teamsManager.getPlayers()[0].getCards()) {
+            test = test.concat(card.getName() + "(" + card.isTrump() + "), ");
+        }
+        System.out.println(test.substring(0, test.length() - 2) + "\n");
+
         Player[] players = teamsManager.getPlayersInOrder();
 
         for(int i = 0; i < Deck.getCardCount() / 4; i++) {
@@ -49,7 +55,7 @@ public class Game {
             for(int j = 0; j < 4; j++) {
                 Card fox = new Card("Karo Ass");
                 if(!GameManager.isTrump(fox) && stack.get(j).equals(fox)) {
-                    if(firstIndex == -1) firstIndex = i;
+                    if(firstIndex == -1) firstIndex = j;
                     else secondIndex = i;
                 }
             }
@@ -76,13 +82,13 @@ public class Game {
         }
 
         //print final results
-        String output = "Re: \n";
+        String output = "Re: " + teamsManager.getRePoints() + "\n";
         for(Player player : teamsManager.getRePlayers()) {
             output = output.concat(player.getName() + " (" + player.getPoints() + ")\n");
         }
         System.out.println(output);
 
-        output = "Contra: \n";
+        output = "Contra: " + teamsManager.getContraPoints() + "\n";
         for (Player player : teamsManager.getContraPlayers()) {
             output = output.concat(player.getName() + " (" + player.getPoints() + ")\n");
         }
