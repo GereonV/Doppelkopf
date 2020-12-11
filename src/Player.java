@@ -314,7 +314,7 @@ public class Player {
     /**
      * sets the player's cards to an empty List
      */
-    private void setCards() {
+    public void setCards() {
         this.cards = new ArrayList<>();
     }
 

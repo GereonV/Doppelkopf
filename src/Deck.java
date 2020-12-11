@@ -48,6 +48,8 @@ public class Deck {
      * @return -1 or the index of the player who needs a partner
      */
     public int split(TeamsManager teamsManager) {
+        System.out.println("Mischen...");
+
         Player[] players = teamsManager.getPlayers();   //gets all players
         shuffle();  //reshuffles the cards
         int needsPartner = -1;  //initialises return value
@@ -64,7 +66,10 @@ public class Deck {
                 if(card.getValue().equals(badCard)) badCards++; //if it is the worst card add one to the bad card counter
                 else if(card.getName().equals("Karo Ass")) foxes++; //if it is a fox instead add one to the respective counter
             }
-            if(badCards >= 5 && GameManager.illness) return split(teamsManager);    //if the player has at least 5 of the worst card redo everything
+            if(badCards >= 5 && GameManager.illness) {
+                for (Player player : players) player.setCards();    //clear all players cards
+                return split(teamsManager);    //if the player has at least 5 of the worst card redo everything
+            }
             else if(foxes == 2 && GameManager.withPigs) players[i].setPigs(true);   //if the player has two foxes instead and you play with Pigs
         }
         for(int i = 0; i < players.length; i++) { //ask all players for extras
