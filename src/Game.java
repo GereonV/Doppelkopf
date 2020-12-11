@@ -73,7 +73,7 @@ public class Game {
                     }
                 }
                 if(firstIndex != -1 && firstIndex == winnerIndex) winner.addExtra();
-                else if(secondIndex != -1 && secondIndex != winnerIndex) winner.addExtra();
+                if(secondIndex != -1 && secondIndex == winnerIndex) winner.addExtra();
             }
 
 
@@ -81,17 +81,6 @@ public class Game {
 
         }
 
-        //print final results
-        String output = "Re: " + teamsManager.getRePoints() + "\n";
-        for(Player player : teamsManager.getRePlayers()) {
-            output = output.concat(player.getName() + " (" + player.getPoints() + ")\n");
-        }
-        System.out.println(output);
-
-        output = "Contra: " + teamsManager.getContraPoints() + "\n";
-        for (Player player : teamsManager.getContraPlayers()) {
-            output = output.concat(player.getName() + " (" + player.getPoints() + ")\n");
-        }
-        System.out.println(output);
+        teamsManager.printResults();
     }
 }

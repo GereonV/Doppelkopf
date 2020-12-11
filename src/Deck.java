@@ -74,10 +74,10 @@ public class Deck {
         }
         for(int i = 0; i < players.length; i++) { //ask all players for extras
             boolean[] extra = players[i].extra(teamsManager);   //asks for extras
-            if(extra[1]) {  //if partner is requested
-                needsPartner = i;
-            }
             if(extra[0]) {  //breaks if skip requested
+                if(extra[1]) {  //if partner is requested
+                    needsPartner = i;
+                }
                 break;
             }
         }

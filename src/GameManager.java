@@ -74,7 +74,8 @@ public class GameManager {
                 case HEARTS: return new String[] {"Herz 10", "Kreuz Dame", "Pik Dame", "Herz Dame", "Karo Dame", "Kreuz Bube", "Pik Bube", "Herz Bube", "Karo Bube", "Herz Ass", "Herz König", "Herz 9"};
                 case DIAMONDS: return trumpOrder;
                 case PIGS: {
-                    ArrayList<String> trumpList = (ArrayList<String>) Arrays.asList(trumpOrder);
+                    ArrayList<String> trumpList = new ArrayList<>();
+                    for(Object trump : trumpOrder) trumpList.add((String) trump);
                     trumpList.remove("Karo Ass");
                     trumpList.add(0, "Karo Ass");
                     return trumpList.toArray(new String[0]);

@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -159,13 +158,14 @@ public class Player {
                     }
                 }
                 case "gesund": {
-                    skip = false;
                     if(isWedding()) {
                         GameManager.setTrumpOrder(GameManager.Extra.DIAMONDS);
                         teamsManager.playsSolo(this);
+                        skip = false;
                     }
                     if(isPigs()) {
                         GameManager.setTrumpOrder(GameManager.Extra.PIGS);
+                        skip = false;
                     }
                     break;
                 }

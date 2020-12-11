@@ -51,9 +51,7 @@ public class TeamsManager {
     public void playsSolo(Player player) {
         for(Player aPlayer : getPlayers()) {
             aPlayer.setRe(false);
-            for (Card card : aPlayer.getCards()) {
-                card.setTrump();
-            }
+            aPlayer.refreshCards();
         }
         player.setRe(true);
     }
@@ -62,6 +60,7 @@ public class TeamsManager {
      * orders the players according to which one goes first, cycling through known players
      *
      * @param goFirst which player should go first
+     *
      * @return the cycled through players
      */
     public Player[] getPlayersInOrder(int goFirst) {
@@ -82,7 +81,7 @@ public class TeamsManager {
         }
 
         Player[] rePlayers = new Player[playerList.size()];
-        for (int i = 0; i < rePlayers.length; i++) {
+        for(int i = 0; i < rePlayers.length; i++) {
             rePlayers[i] = playerList.get(i);
         }
         return rePlayers;
@@ -93,7 +92,7 @@ public class TeamsManager {
      */
     public int getRePoints() {
         int points = 0;
-        for (Player player : getRePlayers()) {
+        for(Player player : getRePlayers()) {
             points += player.getPoints();
         }
         return points;
@@ -109,7 +108,7 @@ public class TeamsManager {
         }
 
         Player[] contraPlayers = new Player[playerList.size()];
-        for (int i = 0; i < contraPlayers.length; i++) {
+        for(int i = 0; i < contraPlayers.length; i++) {
             contraPlayers[i] = playerList.get(i);
         }
         return contraPlayers;
@@ -120,9 +119,52 @@ public class TeamsManager {
      */
     public int getContraPoints() {
         int points = 0;
-        for (Player player : getContraPlayers()) {
+        for(Player player : getContraPlayers()) {
             points += player.getPoints();
         }
         return points;
+    }
+
+    /**
+     * prints the final results of the game
+     * only should be called when game has ended
+     */
+    public void printResults() {
+        int rePoints = getRePoints();
+        int contraPoints = getContraPoints();
+
+
+        String output;
+
+        output = "Re: " + rePoints + "\n";
+        for(Player player : getRePlayers()) output = output.concat(player.getName() + " (" + player.getPoints() + ")\n");
+        System.out.println(output);
+
+        output = "Contra: " + contraPoints + "\n";
+        for(Player player : getContraPlayers()) output = output.concat(player.getName() + " (" + player.getPoints() + ")\n");
+        System.out.println(output);
+
+
+        boolean reWon = rePoints > contraPoints;
+
+        output = reWon ? "Re" : "Kontra";
+        output = output.concat(" gewinnt ");
+
+        int points = 1;
+        if(!reWon) points++;
+        int winnerPoints = reWon ? rePoints : contraPoints;
+        if(winnerPoints >= 150) {
+            points++;
+            if(winnerPoints >= 180) {
+                points++;
+                if(winnerPoints >= 210) {
+                    points++;
+                    if(winnerPoints == 240) points++;
+                }
+            }
+        }
+        for(Player player : reWon ? getRePlayers() : getContraPlayers()) points += player.getExtras();
+        output = output.concat(points + " Punkte.");
+        System.out.println(output);
     }
 }
