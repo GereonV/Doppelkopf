@@ -75,11 +75,8 @@ public class Card {
         } else {    //if this ain't trump
             if(card.isTrump()) return false;    //if only card is trump
             else {  //if both ain't trump
-                if(!color.equals(card.color)) return true;
-                int thisIndex = GameManager.valueIndex(this);
-                int otherIndex = GameManager.valueIndex(card);
-                if(thisIndex != otherIndex) return thisIndex <= otherIndex;  //if different values
-                else return GameManager.colorIndex(this) <= GameManager.colorIndex(card);   //if the same value
+                if(!color.equals(card.color) || !getValue().equals(card.getValue())) return true;   //if either wrong color or same card is played
+                else return GameManager.valueIndex(this) <= GameManager.valueIndex(card);  //if different values
             }
         }
     }

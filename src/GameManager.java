@@ -180,15 +180,4 @@ public class GameManager {
     public static int valueIndex(Card card) {
         return Arrays.asList(valueOrder).indexOf(card.getValue());
     }
-
-    /**
-     * looks into the color-order and finds the card's index
-     *
-     * @param card the card to check for
-     *
-     * @return the index within the color-order
-     */
-    public static int colorIndex(Card card) {
-        return Arrays.asList(colorOrder).indexOf(card.getColor());
-    }
 }
