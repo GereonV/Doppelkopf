@@ -72,8 +72,7 @@ public class Game {
                         else secondIndex = i;
                     }
                 }
-                if(firstIndex != -1 && firstIndex == winnerIndex) winner.addExtra();
-                if(secondIndex != -1 && secondIndex == winnerIndex) winner.addExtra();
+                if((firstIndex != -1 && firstIndex == winnerIndex) || (secondIndex != -1 && secondIndex == winnerIndex)) winner.addExtra();
             }
 
 
